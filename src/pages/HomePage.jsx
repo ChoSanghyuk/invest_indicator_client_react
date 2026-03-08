@@ -30,7 +30,7 @@ const HomePage = () => {
     <div className="home-page">
       <header className="home-header">
         <div className="header-content">
-          <h1>Investment Portfolio</h1>
+          <h1>Portfolio</h1>
           <button
             className="toggle-amount-btn"
             onClick={() => setShowAmounts(!showAmounts)}
