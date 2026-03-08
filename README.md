@@ -14,3 +14,34 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+---
+
+Project Structure Created
+
+  src/
+  ├── components/
+  │   ├── FundCard.jsx          # Individual fund display component
+  │   └── FundCard.css          # Fund card styling
+  ├── pages/
+  │   ├── HomePage.jsx          # Main home page
+  │   └── HomePage.css          # Home page styling
+  ├── services/
+  │   └── fund.service.js       # API layer with mock/real API support
+  ├── types/
+  │   └── fund.types.js         # Type definitions and constants
+  ├── config/
+  │   └── api.config.js         # Configuration for API mode
+  └── App.jsx                   # Updated to use HomePage
+
+  Key Features
+
+  1. Mock/Real API Support: Controlled via environment variables (.env.example provided)
+  2. Modular Design: Separated concerns (components, services, config)
+  3. Specification-Compliant: Follows spec/fund/api.md exactly
+  4. Responsive Design: Works on desktop and mobile
+  5. Interactive UI: Click fund cards to expand/collapse details
+  6. Professional Styling: Modern gradient designs with proper visual hierarchy
+
+
+  
