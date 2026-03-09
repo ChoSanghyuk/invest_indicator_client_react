@@ -47,21 +47,13 @@ const Navigation = () => {
               <button className="menu-close" onClick={closeMenu}>✕</button>
             </div>
             <div className="menu-items">
-              <NavLink to="/settings" className="menu-item" onClick={closeMenu}>
-                <span className="menu-item-icon">⚙️</span>
-                <span className="menu-item-label">Settings</span>
+              <NavLink to="/invest" className="menu-item" onClick={closeMenu}>
+                <span className="menu-item-icon">💰</span>
+                <span className="menu-item-label">Invest</span>
               </NavLink>
-              <NavLink to="/profile" className="menu-item" onClick={closeMenu}>
-                <span className="menu-item-icon">👤</span>
-                <span className="menu-item-label">Profile</span>
-              </NavLink>
-              <NavLink to="/reports" className="menu-item" onClick={closeMenu}>
-                <span className="menu-item-icon">📄</span>
-                <span className="menu-item-label">Reports</span>
-              </NavLink>
-              <NavLink to="/analytics" className="menu-item" onClick={closeMenu}>
-                <span className="menu-item-icon">📉</span>
-                <span className="menu-item-label">Analytics</span>
+              <NavLink to="/events" className="menu-item" onClick={closeMenu}>
+                <span className="menu-item-icon">⚡</span>
+                <span className="menu-item-label">Events</span>
               </NavLink>
             </div>
           </div>

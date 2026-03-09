@@ -87,10 +87,11 @@
   border-radius: 0.75rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   z-index: 1002;
-  animation: slideUp 0.2s ease;
+  opacity: 0;
+  animation: slideUpFade 0.2s ease forwards;
 }
 
-@keyframes slideUp {
+@keyframes slideUpFade {
   from {
     opacity: 0;
     transform: translateY(10px);
@@ -143,6 +144,17 @@
 
 .menu-items {
   padding: 0.5rem;
+}
+
+.menu-empty {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.menu-empty p {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  margin: 0;
 }
 
 .menu-item {

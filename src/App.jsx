@@ -4,6 +4,8 @@ import HomePage from './pages/HomePage';
 import AssetsPage from './pages/AssetsPage';
 import HistoryPage from './pages/HistoryPage';
 import MarketPage from './pages/MarketPage';
+import InvestPage from './pages/InvestPage';
+import EventPage from './pages/EventPage';
 import SettingsPage from './pages/SettingsPage';
 import ProfilePage from './pages/ProfilePage';
 import ReportsPage from './pages/ReportsPage';
@@ -20,6 +22,8 @@ function App() {
           <Route path="/assets" element={<AssetsPage />} />
           <Route path="/history" element={<HistoryPage />} />
           <Route path="/market" element={<MarketPage />} />
+          <Route path="/invest" element={<InvestPage />} />
+          <Route path="/events" element={<EventPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/reports" element={<ReportsPage />} />
