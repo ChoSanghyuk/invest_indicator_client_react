@@ -1,4 +1,4 @@
-import API_CONFIG from '../config/api.config';
+import API_CONFIG, { getAuthHeaders } from '../config/api.config';
 
 /**
  * Mock market data
@@ -50,9 +50,7 @@ export const getMarketStatus = async (date) => {
 
   const response = await fetch(url, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -75,9 +73,7 @@ export const getWeeklyIndicators = async () => {
 
   const response = await fetch(`${API_CONFIG.BASE_URL}/market/weekly_indicators`, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -105,9 +101,7 @@ export const updateMarketStatus = async (status) => {
 
   const response = await fetch(`${API_CONFIG.BASE_URL}/market/`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify({ status }),
   });
 

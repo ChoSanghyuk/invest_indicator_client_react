@@ -1,4 +1,4 @@
-import API_CONFIG from '../config/api.config';
+import API_CONFIG, { getAuthHeaders } from '../config/api.config';
 
 /**
  * Get all events
@@ -38,7 +38,10 @@ export const getAllEvents = async () => {
     });
   }
 
-  const response = await fetch(`${API_CONFIG.BASE_URL}/events/`);
+  const response = await fetch(`${API_CONFIG.BASE_URL}/events/`, {
+    method: 'GET',
+    headers: getAuthHeaders(),
+  });
   if (!response.ok) {
     throw new Error(`Failed to fetch events: ${response.statusText}`);
   }
@@ -62,9 +65,7 @@ export const switchEventStatus = async (id, active) => {
 
   const response = await fetch(`${API_CONFIG.BASE_URL}/events/switch`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify({ id, active }),
   });
 
@@ -91,9 +92,7 @@ export const launchEvent = async (id) => {
 
   const response = await fetch(`${API_CONFIG.BASE_URL}/events/launch`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify({ id }),
   });
 

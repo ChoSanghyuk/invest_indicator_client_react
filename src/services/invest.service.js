@@ -1,4 +1,4 @@
-import API_CONFIG from '../config/api.config';
+import API_CONFIG, { getAuthHeaders } from '../config/api.config';
 
 /**
  * Record a new investment transaction
@@ -34,9 +34,7 @@ export const recordInvestment = async (investData) => {
 
   const response = await fetch(`${API_CONFIG.BASE_URL}/invest/`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify(investData),
   });
 

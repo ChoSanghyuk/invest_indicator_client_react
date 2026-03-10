@@ -1,4 +1,4 @@
-import API_CONFIG from '../config/api.config';
+import API_CONFIG, { getAuthHeaders } from '../config/api.config';
 
 /**
  * Mock data for funds
@@ -137,9 +137,7 @@ export const getAllFunds = async () => {
 
   const response = await fetch(`${API_CONFIG.BASE_URL}/funds/`, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -163,9 +161,7 @@ export const getFundAssets = async (fundId) => {
 
   const response = await fetch(`${API_CONFIG.BASE_URL}/funds/${fundId}/assets`, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -189,9 +185,7 @@ export const getFundPortion = async (fundId) => {
 
   const response = await fetch(`${API_CONFIG.BASE_URL}/funds/${fundId}/portion`, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -376,9 +370,7 @@ export const getFundHistory = async (fundId, startDate, endDate) => {
 
   const response = await fetch(url, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {

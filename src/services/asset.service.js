@@ -1,4 +1,4 @@
-import API_CONFIG from '../config/api.config';
+import API_CONFIG, { getAuthHeaders } from '../config/api.config';
 
 /**
  * Mock data for assets
@@ -159,9 +159,7 @@ export const getAllAssets = async () => {
 
   const response = await fetch(`${API_CONFIG.BASE_URL}/assets`, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -192,9 +190,7 @@ export const getAssetById = async (assetId) => {
 
   const response = await fetch(`${API_CONFIG.BASE_URL}/assets/${assetId}`, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -264,9 +260,7 @@ export const addAsset = async (assetData) => {
 
   const response = await fetch(`${API_CONFIG.BASE_URL}/assets/`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getAuthHeaders(),
     body: JSON.stringify(assetData),
   });
 
