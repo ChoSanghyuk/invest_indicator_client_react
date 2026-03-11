@@ -28,8 +28,8 @@ const LoginPage = () => {
     setError('');
 
     // Validation
-    if (!formData.username || !formData.email || !formData.password) {
-      setError('All fields are required');
+    if (!formData.username || !formData.password) {
+      setError('Username and password are required');
       return;
     }
 
@@ -79,7 +79,7 @@ const LoginPage = () => {
 
           <div className="form-group">
             <label htmlFor="email" className="form-label">
-              Email <span className="required">*</span>
+              Email
             </label>
             <input
               type="email"
@@ -88,7 +88,7 @@ const LoginPage = () => {
               value={formData.email}
               onChange={handleChange}
               className="form-input"
-              placeholder="Enter your email"
+              placeholder="Enter your email (optional)"
               autoComplete="email"
             />
           </div>
