@@ -58,7 +58,13 @@ const HistoryPage = () => {
       try {
         setHistoryLoading(true);
         const historyData = await getFundHistory(selectedFundId, startDate, endDate);
-        setHistory(historyData);
+        // Sort by date descending (newest first)
+        const sortedHistory = historyData.sort((a, b) => {
+          const dateA = new Date(a.created_at.replace(' ', 'T'));
+          const dateB = new Date(b.created_at.replace(' ', 'T'));
+          return dateB - dateA;
+        });
+        setHistory(sortedHistory);
       } catch (err) {
         setError(err.message);
       } finally {
