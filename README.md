@@ -2,49 +2,49 @@
 
 
 
-## 개요
+## Overview
 
-투자 현황과 시장 상태를 모니터링하는 Web Application입니다.
+A web application for monitoring investment status and market conditions.
 
-[Invest Indicator](https://github.com/ChoSanghyuk/invest_indicator)를 backend server로 가지고 있으며, Invest Indicator가 제공하는 정보들을 받아 시각화하고, 유저가 서버와 상호작용할 수 있도록 하는 middleware의 역할을 수행합니다.
-
-
-
-### 주요 기능
-
-- 투자 상태 : 자산 그룹을 용도에 맞게 분리, 생성하여 자산 그룹에 따라 투자 현황을 관리
-- 관심 종목 정보 : 등록한 종목의 가격 및 매수/매도 가격 알림을 관리
-- 투자 이력 : 자산 그룹별 투자 이력 조회
-- 시장 지표 : 공포/탐욕 지수, 시장 index, High Yield Spread 등 참고할 시장 지표를 관리
-- 투자 기록 : 투자한 이력을 기록. (현재는 증권사/코인 거래소 API를 통해 자동 기록)
-- 이벤트 : 금/코인 김치 프리미엄, 거래소 Airdrop 알림, Avalanche Swap Tx 등의 작업 on/off 관리
+It uses [Invest Indicator](https://github.com/ChoSanghyuk/invest_indicator) as its backend server and serves as middleware that visualizes information provided by Invest Indicator and enables user interaction with the server.
 
 
 
-### 주요 화면 샘플
+### Key Features
 
-:bulb: mock 모드로 실행되었을 때의 화면입니다.
+- Investment Status: Manage investment status by creating and organizing asset groups according to their purposes
+- Watchlist Information: Manage price alerts for buy/sell prices of registered stocks
+- Investment History: View investment history by asset group
+- Market Indicators: Manage market indicators for reference such as Fear/Greed Index, market indices, High Yield Spread, etc.
+- Investment Records: Record investment history (currently auto-recorded via securities/crypto exchange APIs)
+- Events: Manage on/off settings for tasks such as gold/crypto kimchi premium, exchange airdrop notifications, Avalanche Swap transactions, etc.
+
+
+
+### Sample Screenshots
+
+:bulb: Screenshots when running in mock mode.
 
 ![image-20260311093309646](./assets/image-20260311093309646.png)
 
 
 
-## 실행
+## Running the Application
 
-### 환경 설정
+### Environment Setup
 
-- 프로젝트 root에 `.env` 파일을 생성하여 변수 값을 생성합니다.
-  - `VITE_USE_MOCK` : true 시 mock모드로 실행. false 시, 실제 backend 서버와 연결
-  - `VITE_API_BASE_URL` : backend 서버의 url
-- `.env.example` 파일을 참조하여 `.env` 파일을 생성합니다.
+- Create a `.env` file in the project root with variable values.
+  - `VITE_USE_MOCK`: When true, runs in mock mode. When false, connects to the actual backend server
+  - `VITE_API_BASE_URL`: Backend server URL
+- Refer to the `.env.example` file to create your `.env` file.
 
 
 
-### 실행
+### Execution
 
-- dev 모드 : `npm run dev`
+- Dev mode: `npm run dev`
 
-- 빌드 : `npm run build`
+- Build: `npm run build`
 
   
 
@@ -52,32 +52,38 @@
 
 ```
 invest_indicator_app/
-├── src/                    # 메인 애플리케이션 소스 코드
-│   ├── pages/              # 페이지 컴포넌트 (Login, Home, Assets, Market 등)
-│   ├── components/         # 재사용 가능한 UI 컴포넌트 (Navigation, Modal 등)
-│   ├── services/           # API 통신 및 비즈니스 로직 (auth, asset, fund, market 등)
-│   ├── context/            # React Context를 통한 전역 상태 관리 (AuthContext)
-│   ├── hooks/              # 커스텀 React Hooks (useAuth 등)
-│   ├── config/             # 설정 파일 (API 설정, Mock/Real 모드 토글)
-│   ├── types/              # 데이터 타입 및 모델 정의
-│   ├── utils/              # 공통 유틸리티 함수
-│   └── assets/             # 정적 리소스 (이미지, 아이콘 등)
-├── spec/                   # API 및 기능 명세서
-├── public/                 # 정적 파일 (Vite에서 직접 서빙)
-├── dist/                   # 빌드 결과물 (프로덕션 배포용)
-├── assets/                 # 프로젝트 문서용 이미지
-├── .env.example            # 환경 변수 템플릿
-└── vite.config.js          # Vite 빌드 설정
+├── src/                    # Main application source code
+│   ├── pages/              # Page components (Login, Home, Assets, Market, etc.)
+│   ├── components/         # Reusable UI components (Navigation, Modal, etc.)
+│   ├── services/           # API communication and business logic (auth, asset, fund, market, etc.)
+│   ├── context/            # Global state management via React Context (AuthContext)
+│   ├── hooks/              # Custom React Hooks (useAuth, etc.)
+│   ├── config/             # Configuration files (API settings, Mock/Real mode toggle)
+│   ├── types/              # Data types and model definitions
+│   ├── utils/              # Common utility functions
+│   └── assets/             # Static resources (images, icons, etc.)
+├── spec/                   # API and feature specifications
+├── public/                 # Static files (served directly by Vite)
+├── dist/                   # Build output (for production deployment)
+├── assets/                 # Project documentation images
+├── .env.example            # Environment variables template
+└── vite.config.js          # Vite build configuration
 
 ```
 
-### 주요 디렉토리 설명
+### Key Directory Descriptions
 
-- **src/pages/**: 각 페이지별 컴포넌트 (LoginPage, HomePage, AssetsPage, MarketPage, InvestPage 등)
-- **src/services/**: Backend API와의 통신을 담당하는 서비스 레이어. Mock/Real API 모드 지원
-- **src/context/**: React Context API를 활용한 전역 상태 관리 (인증 상태 등)
-- **spec/**: Backend API의 계약 사양을 정의한 명세서. AI Agent에게 구현할 기능의 명세 제공
-- **spec/common/**: 모든 API에 공통으로 적용되는 타입, 인증, 에러 처리 명세
+- **src/pages/**: Page-specific components (LoginPage, HomePage, AssetsPage, MarketPage, InvestPage, etc.)
+- **src/services/**: Service layer responsible for Backend API communication. Supports Mock/Real API modes
+- **src/context/**: Global state management using React Context API (authentication state, etc.)
+- **spec/**: Specifications defining Backend API contracts. Provides feature specifications for AI Agents
+- **spec/common/**: Common specifications for types, authentication, and error handling applied to all APIs
 
 
+
+### Deployment Error Cases
+
+#### 403 forbidden
+- Symptom: /var/log/nginx/error.log shows "*1 directory index of "/{mypath}/dist/assets/" is forbidden"
+- Cause: Page path remains in the URL causing improper navigation. Works normally when entering home screen path. 
 

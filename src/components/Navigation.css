@@ -181,6 +181,12 @@
   font-size: 1.5rem;
 }
 
+.menu-item-icon-img {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+}
+
 .menu-item-label {
   font-size: 0.9375rem;
   font-weight: 500;

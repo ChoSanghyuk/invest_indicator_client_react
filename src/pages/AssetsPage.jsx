@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
-import { getAllAssets, addAsset, formatPrice, calculatePricePosition } from '../services/asset.service';
+import { useState, useEffect, useRef } from 'react';
+import { getAllAssets, addAsset, updateAsset, deleteAsset, formatPrice, calculatePricePosition } from '../services/asset.service';
 import { CategoryList } from '../types/asset.types';
 import AddAssetModal from '../components/AddAssetModal';
+import UpdateAssetModal from '../components/UpdateAssetModal';
+import DeleteConfirmDialog from '../components/DeleteConfirmDialog';
 import './AssetsPage.css';
 
 const AssetsPage = () => {
@@ -12,6 +14,14 @@ const AssetsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedAsset, setSelectedAsset] = useState(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [assetToDelete, setAssetToDelete] = useState(null);
+
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const isSwiping = useRef(false);
 
   useEffect(() => {
     const fetchAssets = async () => {
@@ -52,6 +62,74 @@ const AssetsPage = () => {
   const handleAddAsset = async (assetData) => {
     const newAsset = await addAsset(assetData);
     setAssets(prev => [...prev, newAsset]);
+  };
+
+  const handleUpdateAsset = async (assetData) => {
+    await updateAsset(assetData);
+    // Refresh assets after update
+    const updatedAssets = await getAllAssets();
+    setAssets(updatedAssets);
+  };
+
+  const handleAssetDoubleClick = (asset) => {
+    setSelectedAsset(asset);
+    setShowUpdateModal(true);
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchEndX.current = e.touches[0].clientX;
+    isSwiping.current = false;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+    const movementDistance = Math.abs(touchStartX.current - touchEndX.current);
+
+    // Mark as swiping if movement exceeds a small threshold
+    if (movementDistance > 10) {
+      isSwiping.current = true;
+    }
+  };
+
+  const handleTouchEnd = (asset) => {
+    // Only process if this was actually a swipe, not a tap
+    if (isSwiping.current) {
+      const swipeDistance = touchStartX.current - touchEndX.current;
+      const minSwipeDistance = 50; // minimum distance for a valid swipe
+
+      // Left swipe (swiping from right to left)
+      if (swipeDistance > minSwipeDistance) {
+        setAssetToDelete(asset);
+        setShowDeleteDialog(true);
+      }
+    }
+
+    // Reset values
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+    isSwiping.current = false;
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!assetToDelete) return;
+
+    try {
+      await deleteAsset(assetToDelete.id);
+      // Refresh assets after delete
+      const updatedAssets = await getAllAssets();
+      setAssets(updatedAssets);
+      setShowDeleteDialog(false);
+      setAssetToDelete(null);
+    } catch (error) {
+      console.error('Failed to delete asset:', error);
+      // You could add error handling UI here
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeleteDialog(false);
+    setAssetToDelete(null);
   };
 
   return (
@@ -122,7 +200,14 @@ const AssetsPage = () => {
               const isNearSell = position > 70;
 
               return (
-                <div key={asset.id} className="asset-card">
+                <div
+                  key={asset.id}
+                  className="asset-card"
+                  onDoubleClick={() => handleAssetDoubleClick(asset)}
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={() => handleTouchEnd(asset)}
+                >
                   <div className="asset-header">
                     <div className="asset-info">
                       <h3 className="asset-name">{asset.name}</h3>
@@ -187,6 +272,23 @@ const AssetsPage = () => {
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
         onAdd={handleAddAsset}
+      />
+
+      <UpdateAssetModal
+        isOpen={showUpdateModal}
+        onClose={() => {
+          setShowUpdateModal(false);
+          setSelectedAsset(null);
+        }}
+        onUpdate={handleUpdateAsset}
+        asset={selectedAsset}
+      />
+
+      <DeleteConfirmDialog
+        isOpen={showDeleteDialog}
+        onClose={handleDeleteCancel}
+        onConfirm={handleDeleteConfirm}
+        assetName={assetToDelete?.name}
       />
     </div>
   );

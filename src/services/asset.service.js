@@ -270,3 +270,76 @@ export const addAsset = async (assetData) => {
 
   return response.json();
 };
+
+/**
+ * Update an existing asset
+ * @param {Object} assetData - Asset data to update (must include id)
+ * @returns {Promise<string>} Success message
+ */
+export const updateAsset = async (assetData) => {
+  if (API_CONFIG.USE_MOCK) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const index = mockAssets.findIndex(a => a.id === assetData.id);
+        if (index === -1) {
+          reject(new Error('Asset not found'));
+          return;
+        }
+
+        // Update the asset, preserving fields not in update request
+        mockAssets[index] = {
+          ...mockAssets[index],
+          ...assetData,
+        };
+
+        resolve('자산 정보 갱신 성공');
+      }, 500);
+    });
+  }
+
+  const response = await fetch(`${API_CONFIG.BASE_URL}/assets/`, {
+    method: 'PUT',
+    headers: getAuthHeaders(),
+    body: JSON.stringify(assetData),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to update asset: ${response.statusText}`);
+  }
+
+  return response.text();
+};
+
+/**
+ * Delete an asset
+ * @param {number} assetId - Asset ID to delete
+ * @returns {Promise<string>} Success message
+ */
+export const deleteAsset = async (assetId) => {
+  if (API_CONFIG.USE_MOCK) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const index = mockAssets.findIndex(a => a.id === assetId);
+        if (index === -1) {
+          reject(new Error('Asset not found'));
+          return;
+        }
+
+        mockAssets.splice(index, 1);
+        resolve('자산 정보 삭제 성공');
+      }, 500);
+    });
+  }
+
+  const response = await fetch(`${API_CONFIG.BASE_URL}/assets/`, {
+    method: 'DELETE',
+    headers: getAuthHeaders(),
+    body: JSON.stringify({ id: assetId }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to delete asset: ${response.statusText}`);
+  }
+
+  return response.text();
+};

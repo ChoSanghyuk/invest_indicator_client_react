@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import blackholeLogo from '../assets/blackhole-logo.png';
 import './Navigation.css';
 
 const Navigation = () => {
@@ -54,6 +55,10 @@ const Navigation = () => {
               <NavLink to="/events" className="menu-item" onClick={closeMenu}>
                 <span className="menu-item-icon">⚡</span>
                 <span className="menu-item-label">Events</span>
+              </NavLink>
+              <NavLink to="/blackhole" className="menu-item" onClick={closeMenu}>
+                <img src={blackholeLogo} alt="Blackhole" className="menu-item-icon-img" />
+                <span className="menu-item-label">Blackhole</span>
               </NavLink>
             </div>
           </div>

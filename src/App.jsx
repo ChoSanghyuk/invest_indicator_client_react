@@ -13,6 +13,7 @@ import SettingsPage from './pages/SettingsPage';
 import ProfilePage from './pages/ProfilePage';
 import ReportsPage from './pages/ReportsPage';
 import AnalyticsPage from './pages/AnalyticsPage';
+import BlackholePage from './pages/BlackholePage';
 import './App.css';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/reports" element={<ReportsPage />} />
                     <Route path="/analytics" element={<AnalyticsPage />} />
+                    <Route path="/blackhole" element={<BlackholePage />} />
                   </Routes>
                 </div>
               </ProtectedRoute>
