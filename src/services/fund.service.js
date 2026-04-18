@@ -28,33 +28,36 @@ const mockFundAssets = {
       "amount": "15000000.00",
       "amount_dollar": "12000.00",
       "profit_rate": "15.50",
-      "division": "해외주식",
+      "major_category": "변동자산",
+      "middle_category": "ETF/주식",
+      "small_category": "해외주식",
       "quantity": "100.00",
       "price": "",
-      "price_dollar": "",
-      "isStable": false
+      "price_dollar": ""
     },
     {
       "name": "Samsung Electronics",
       "amount": "8500000.00",
       "amount_dollar": "",
       "profit_rate": "8.20",
-      "division": "국내주식",
+      "major_category": "변동자산",
+      "middle_category": "ETF/주식",
+      "small_category": "국내주식",
       "quantity": "150.00",
       "price": "",
-      "price_dollar": "",
-      "isStable": false
+      "price_dollar": ""
     },
     {
       "name": "Cash",
       "amount": "26500000.00",
       "amount_dollar": "",
       "profit_rate": "",
-      "division": "현금",
+      "major_category": "안정자산",
+      "middle_category": "현금",
+      "small_category": "현금",
       "quantity": "26500000.00",
       "price": "",
-      "price_dollar": "",
-      "isStable": true
+      "price_dollar": ""
     }
   ],
   "2": [
@@ -63,22 +66,24 @@ const mockFundAssets = {
       "amount": "15000000.00",
       "amount_dollar": "",
       "profit_rate": "5.30",
-      "division": "금",
+      "major_category": "안정자산",
+      "middle_category": "금",
+      "small_category": "금",
       "quantity": "200.00",
       "price": "",
-      "price_dollar": "",
-      "isStable": true
+      "price_dollar": ""
     },
     {
       "name": "Cash",
       "amount": "10000000.00",
       "amount_dollar": "",
       "profit_rate": "",
-      "division": "현금",
+      "major_category": "안정자산",
+      "middle_category": "현금",
+      "small_category": "현금",
       "quantity": "10000000.00",
       "price": "",
-      "price_dollar": "",
-      "isStable": true
+      "price_dollar": ""
     }
   ],
   "3": [
@@ -87,33 +92,36 @@ const mockFundAssets = {
       "amount": "20000000.00",
       "amount_dollar": "16000.00",
       "profit_rate": "25.80",
-      "division": "해외주식",
+      "major_category": "변동자산",
+      "middle_category": "ETF/주식",
+      "small_category": "해외주식",
       "quantity": "80.00",
       "price": "",
-      "price_dollar": "",
-      "isStable": false
+      "price_dollar": ""
     },
     {
       "name": "KODEX 레버리지",
       "amount": "10000000.00",
       "amount_dollar": "",
       "profit_rate": "12.40",
-      "division": "레버리지",
+      "major_category": "변동자산",
+      "middle_category": "ETF/주식",
+      "small_category": "레버리지",
       "quantity": "500.00",
       "price": "",
-      "price_dollar": "",
-      "isStable": false
+      "price_dollar": ""
     },
     {
       "name": "Cash",
       "amount": "5000000.00",
       "amount_dollar": "",
       "profit_rate": "",
-      "division": "현금",
+      "major_category": "안정자산",
+      "middle_category": "현금",
+      "small_category": "현금",
       "quantity": "5000000.00",
       "price": "",
-      "price_dollar": "",
-      "isStable": true
+      "price_dollar": ""
     }
   ]
 };
@@ -221,6 +229,52 @@ export const formatUSD = (amount) => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(amount);
+};
+
+/**
+ * Define the display order for middle categories
+ */
+const MIDDLE_CATEGORY_ORDER = ['현금', '금', 'ETF/주식', '코인', '기타'];
+
+/**
+ * Calculate middle category portions from fund assets
+ * @param {Array} assets - Array of FundAsset objects
+ * @returns {Array} Array of {category, percentage} objects in display order
+ */
+export const calculateMiddleCategoryPortions = (assets) => {
+  if (!assets || assets.length === 0) {
+    return [];
+  }
+
+  // Calculate total amount
+  const totalAmount = assets.reduce((sum, asset) =>
+    sum + parseFloat(asset.amount || 0), 0);
+
+  if (totalAmount === 0) {
+    return [];
+  }
+
+  // Group by middle_category and sum amounts
+  const categoryAmounts = {};
+  assets.forEach(asset => {
+    const category = asset.middle_category;
+    if (category) {
+      categoryAmounts[category] = (categoryAmounts[category] || 0) + parseFloat(asset.amount || 0);
+    }
+  });
+
+  // Convert to percentages and sort by predefined order
+  const portionsArray = [];
+  MIDDLE_CATEGORY_ORDER.forEach(category => {
+    if (categoryAmounts[category]) {
+      const percentage = Math.round((categoryAmounts[category] / totalAmount) * 100);
+      if (percentage > 0) {
+        portionsArray.push({ category, percentage });
+      }
+    }
+  });
+
+  return portionsArray;
 };
 
 /**

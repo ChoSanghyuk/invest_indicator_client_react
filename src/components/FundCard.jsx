@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { getFundAssets, getFundPortion, formatKRW, formatUSD } from '../services/fund.service';
+import { getFundAssets, getFundPortion, formatKRW, formatUSD, calculateMiddleCategoryPortions } from '../services/fund.service';
+import { isStableAsset } from '../types/fund.types';
 import './FundCard.css';
 
 const FundCard = ({ fund, showAmount, isFirst }) => {
   const [assets, setAssets] = useState([]);
   const [portion, setPortion] = useState(null);
+  const [middlePortions, setMiddlePortions] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expanded, setExpanded] = useState(isFirst);
@@ -20,6 +22,10 @@ const FundCard = ({ fund, showAmount, isFirst }) => {
         ]);
         setAssets(assetsData);
         setPortion(portionData);
+
+        // Calculate middle category portions from assets
+        const middlePortionsData = calculateMiddleCategoryPortions(assetsData);
+        setMiddlePortions(middlePortionsData);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -59,7 +65,7 @@ const FundCard = ({ fund, showAmount, isFirst }) => {
 
           {!loading && !error && portion && (
             <div className="fund-portion">
-              <h4>Asset Allocation</h4>
+              <h4>Asset Allocation (Major Category)</h4>
               <div className="portion-bar">
                 <div
                   className="portion-stable"
@@ -85,6 +91,32 @@ const FundCard = ({ fund, showAmount, isFirst }) => {
                   <span className="legend-color volatile"></span>
                   Volatile: {portion.volatile}%
                 </span>
+              </div>
+            </div>
+          )}
+
+          {!loading && !error && middlePortions && middlePortions.length > 0 && (
+            <div className="fund-portion middle-category-portion">
+              <h4>Asset Allocation (Middle Category)</h4>
+              <div className="portion-bar middle-category-bar">
+                {middlePortions.map(({ category, percentage }) => (
+                  <div
+                    key={category}
+                    className={`portion-middle portion-middle-${category}`}
+                    style={{ width: `${percentage}%` }}
+                    title={`${category}: ${percentage}%`}
+                  >
+                    {percentage > 0 && `${percentage}%`}
+                  </div>
+                ))}
+              </div>
+              <div className="portion-legend middle-category-legend">
+                {middlePortions.map(({ category, percentage }) => (
+                  <span key={category} className="legend-item">
+                    <span className={`legend-color middle-${category}`}></span>
+                    {category}: {percentage}%
+                  </span>
+                ))}
               </div>
             </div>
           )}
@@ -121,13 +153,13 @@ const FundCard = ({ fund, showAmount, isFirst }) => {
                         : formatKRW(parseFloat(asset.amount));
 
                       return (
-                        <tr key={index} className={asset.isStable ? 'stable-asset' : 'volatile-asset'}>
+                        <tr key={index} className={isStableAsset(asset) ? 'stable-asset' : 'volatile-asset'}>
                           <td className="col-name">{asset.name}</td>
                           <td className="col-amount">{displayAmount}</td>
                           <td className={`col-profit ${asset.profit_rate ? (parseFloat(asset.profit_rate) >= 0 ? 'profit-positive' : 'profit-negative') : ''}`}>
                             {asset.profit_rate ? `${asset.profit_rate}%` : '-'}
                           </td>
-                          <td className="col-category">{asset.division}</td>
+                          <td className="col-category">{asset.small_category}</td>
                           <td className="col-quantity">{parseFloat(asset.quantity).toLocaleString('ko-KR')}</td>
                         </tr>
                       );

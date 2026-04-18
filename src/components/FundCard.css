@@ -362,3 +362,92 @@
     min-width: 100px;
   }
 }
+
+/* Middle Category Portion Styles */
+.middle-category-portion {
+  margin-top: 1rem;
+}
+
+.middle-category-bar {
+  height: 2.5rem;
+}
+
+.portion-middle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: width 0.3s ease;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 0.25rem;
+}
+
+/* Color scheme for middle categories */
+.portion-middle-현금 {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); /* Blue */
+}
+
+.portion-middle-금 {
+  background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%); /* Yellow */
+}
+
+.portion-middle-ETF\/주식 {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); /* Purple */
+}
+
+.portion-middle-코인 {
+  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); /* Pink */
+}
+
+.portion-middle-기타 {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); /* Gray */
+}
+
+/* Legend colors for middle categories */
+.legend-color.middle-현금 {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.legend-color.middle-금 {
+  background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+}
+
+.legend-color.middle-ETF\/주식 {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.legend-color.middle-코인 {
+  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+}
+
+.legend-color.middle-기타 {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+}
+
+.middle-category-legend {
+  display: flex;
+  gap: 0.875rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 769px) {
+  .middle-category-bar {
+    height: 2rem;
+  }
+
+  .portion-middle {
+    font-size: 0.75rem;
+  }
+
+  .middle-category-legend {
+    font-size: 0.875rem;
+    gap: 1.25rem;
+  }
+}

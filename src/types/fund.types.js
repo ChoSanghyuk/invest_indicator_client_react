@@ -15,11 +15,12 @@
  * @property {string} amount - Total value in KRW
  * @property {string} amount_dollar - Total value in USD (if applicable)
  * @property {string} profit_rate - Percentage profit/loss
- * @property {string} division - Category name in Korean
+ * @property {string} major_category - Major category: "안정자산" or "변동자산"
+ * @property {string} middle_category - Middle category: "현금", "금", "ETF/주식", "코인", or "기타"
+ * @property {string} small_category - Small category (detailed): "현금", "달러", "금", "단기채권", "국내ETF", "국내주식", "국내코인", "해외주식", "해외ETF", "레버리지", "해외코인", "국내금ETF"
  * @property {string} quantity - Asset count
  * @property {string} price - Unit price (not used)
  * @property {string} price_dollar - Unit price in USD (not used)
- * @property {boolean} isStable - Whether asset is stable category
  */
 
 /**
@@ -53,4 +54,7 @@ export const CategoryMap = {
   12: '국내안전자산ETF',
 };
 
-export const StableCategories = [1, 2, 3, 4, 12]; // 현금, 달러, 금, 단기채권, 국내안전자산ETF
+// Helper function to check if an asset is stable based on major_category
+export const isStableAsset = (asset) => {
+  return asset.major_category === '안정자산';
+};
